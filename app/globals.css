@@ -1,0 +1,373 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: var(--font-noto-sans-jp), "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", sans-serif;
+  --color-canvas: #faf9f6;
+}
+
+:root {
+  --bg: #faf9f6;
+  --fg: #111111;
+  --muted: #8a8a8a;
+  --border: rgba(17, 17, 17, 0.08);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--fg);
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: #111;
+  color: var(--bg);
+}
+
+@layer components {
+  .page-shell {
+    @apply mx-auto max-w-6xl px-6 md:px-12;
+  }
+
+  .display-xl {
+    font-size: clamp(2.5rem, 12vw, 7.5rem);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+  }
+
+  .display-lg {
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .display-md {
+    font-size: clamp(1.75rem, 5vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .body-text {
+    @apply text-sm leading-[2] text-neutral-600 md:text-[0.9375rem];
+  }
+
+  .section-rule {
+    border-top: 1px solid var(--border);
+  }
+
+  .section-label {
+    @apply text-xs font-medium uppercase tracking-[0.14em] text-[var(--muted)];
+  }
+
+  .nav-link {
+    @apply text-sm font-medium text-neutral-900 no-underline transition-opacity duration-200;
+    transition-timing-function: var(--ease-out);
+  }
+
+  .nav-link:hover {
+    @apply opacity-40;
+  }
+
+  .nav-link:focus-visible {
+    @apply rounded-sm opacity-100 outline-2 outline-offset-4 outline-neutral-900;
+  }
+
+  .work-index-link {
+    @apply flex items-start gap-4 no-underline py-10 md:py-14 md:gap-8;
+    color: inherit;
+  }
+
+  .work-index-link:hover .work-index-title {
+    opacity: 0.35;
+  }
+
+  .work-index-link:hover .work-index-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .work-index-number {
+    @apply shrink-0 pt-2 text-xs font-medium tracking-wide md:pt-3;
+    color: var(--muted);
+  }
+
+  .work-index-title {
+    font-size: clamp(2rem, 7vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    transition: opacity 0.2s var(--ease-out);
+  }
+
+  .work-index-arrow {
+    @apply ml-auto shrink-0 self-center text-lg opacity-0 transition-all duration-300;
+    transform: translateX(-4px);
+    transition-timing-function: var(--ease-out);
+  }
+
+  .closing-quote {
+    @apply border-l-2 border-neutral-900 pl-6 text-base font-medium leading-[2] text-black md:pl-8 md:text-lg;
+  }
+
+  .contact-item {
+    @apply flex items-center justify-between py-4 no-underline;
+    border-top: 1px solid var(--border);
+    color: inherit;
+  }
+
+  .contact-item:hover span:last-child {
+    @apply opacity-40;
+  }
+
+  .hero-canvas {
+    @apply pointer-events-none absolute inset-0 z-0;
+  }
+
+  .hero-canvas canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+
+  .hero-canvas-fallback {
+    @apply pointer-events-none absolute inset-0 z-0;
+    background-color: var(--bg);
+  }
+
+  .project-lead {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+    font-weight: 500;
+    line-height: 1.8;
+    letter-spacing: -0.02em;
+    color: #333;
+  }
+
+  .project-meta {
+    @apply grid gap-6 sm:grid-cols-3;
+  }
+
+  .project-meta-item dt {
+    @apply text-xs font-medium uppercase tracking-[0.14em];
+    color: var(--muted);
+  }
+
+  .project-meta-item dd {
+    @apply mt-2 text-sm font-medium text-neutral-900 md:text-base;
+  }
+
+  .project-highlights {
+    @apply max-w-2xl space-y-4;
+  }
+
+  .project-highlights li {
+    @apply relative pl-5 text-sm leading-[2] text-neutral-700 md:text-[0.9375rem];
+  }
+
+  .project-highlights li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.85em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #111;
+  }
+
+  .project-process {
+    @apply max-w-2xl space-y-10;
+  }
+
+  .project-process-item {
+    @apply flex gap-5 md:gap-8;
+  }
+
+  .project-process-number {
+    @apply shrink-0 pt-0.5 text-xs font-medium tracking-wide;
+    color: var(--muted);
+  }
+
+  .project-process-title {
+    @apply text-sm font-medium text-neutral-900 md:text-base;
+  }
+
+  .project-stack {
+    @apply flex max-w-2xl flex-wrap gap-2;
+  }
+
+  .project-stack li {
+    @apply rounded-full border px-4 py-2 text-xs font-medium text-neutral-700;
+    border-color: var(--border);
+  }
+
+  .project-diagram {
+    @apply my-8 w-full max-w-2xl rounded-lg border p-6 md:my-10 md:p-8;
+    border-color: var(--border);
+    background: var(--bg);
+  }
+
+  .diagram-svg {
+    @apply block h-auto w-full;
+  }
+
+  .diagram-label {
+    font-size: 12px;
+    font-weight: 500;
+    fill: #111;
+    font-family: var(--font-sans);
+  }
+
+  .diagram-sublabel {
+    font-size: 10px;
+    fill: var(--muted);
+    font-family: var(--font-sans);
+  }
+
+  .diagram-caption {
+    @apply mt-4 text-center text-xs leading-relaxed;
+    color: var(--muted);
+  }
+
+  .diagram-bypass-label {
+    font-style: italic;
+  }
+}
+
+@keyframes diagram-flow {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+@keyframes diagram-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: center;
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.6);
+    transform-origin: center;
+  }
+}
+
+@keyframes diagram-distortion-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.diagram-arrow-flow {
+  stroke-dasharray: 8 8;
+  animation: diagram-flow 3s linear infinite;
+}
+
+.diagram-arrow-fast {
+  animation-duration: 1.2s;
+}
+
+.diagram-arrow-slow {
+  animation-duration: 4s;
+}
+
+.diagram-pulse {
+  animation: diagram-pulse 2s ease-in-out infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+.diagram-distortion {
+  animation: diagram-distortion-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.scroll-reveal,
+.hero-scroll {
+  will-change: transform, opacity;
+}
+
+@supports (animation-timeline: view()) {
+  .scroll-reveal-css {
+    animation: fade-in-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.fade-in.is-visible {
+  animation: fade-in-up 0.6s var(--ease-out) forwards;
+}
+
+.fade-in-delay-1 {
+  animation-delay: 80ms;
+}
+
+.fade-in-delay-2 {
+  animation-delay: 160ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .fade-in,
+  .fade-in.is-visible,
+  .scroll-reveal,
+  .hero-scroll {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .work-index-link:hover .work-index-title {
+    opacity: 1;
+  }
+
+  .diagram-arrow-flow,
+  .diagram-pulse,
+  .diagram-distortion {
+    animation: none;
+  }
+}
