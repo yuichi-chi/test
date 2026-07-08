@@ -225,16 +225,6 @@ body::before {
     font-weight: 600;
   }
 
-  .work-index-tag-inline {
-    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
-    color: var(--accent);
-  }
-
-  .work-inline-note {
-    font-size: 0.875rem;
-    line-height: 1.7;
-  }
-
   .work-index-link:hover .work-index-tag {
     color: var(--fg);
     border-color: color-mix(in srgb, var(--accent) 35%, var(--border));

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Github, Globe, Mail, Menu, X } from "lucide-react";
+import { Github, Mail, Menu, X } from "lucide-react";
 import { hasContactEmail, siteConfig } from "@/lib/content";
 
 export function Header() {
@@ -55,15 +55,6 @@ export function Header() {
           >
             <Github aria-hidden="true" size={18} strokeWidth={1.75} />
           </a>
-          <a
-            href={contact.sns.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-icon-link"
-            aria-label={contact.sns.label}
-          >
-            <Globe aria-hidden="true" size={18} strokeWidth={1.75} />
-          </a>
           {showEmail && (
             <a href={`mailto:${contact.email.address}`} className="nav-icon-link" aria-label="Email">
               <Mail aria-hidden="true" size={18} strokeWidth={1.75} />
@@ -115,16 +106,6 @@ export function Header() {
             onClick={closeMenu}
           >
             <Github aria-hidden="true" size={18} strokeWidth={1.75} />
-          </a>
-          <a
-            href={contact.sns.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="nav-icon-link"
-            aria-label={contact.sns.label}
-            onClick={closeMenu}
-          >
-            <Globe aria-hidden="true" size={18} strokeWidth={1.75} />
           </a>
           {showEmail && (
             <a

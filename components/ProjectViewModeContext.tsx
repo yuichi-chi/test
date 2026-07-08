@@ -20,6 +20,7 @@ type ProjectViewModeContextValue = {
 const STORAGE_KEY = "projectViewMode";
 const DEFAULT_MODE: ProjectViewMode = "simple";
 const MODE_CHANGE_EVENT = "projectViewModeChange";
+const HYDRATED_EVENT = "projectViewModeHydrated";
 
 const ProjectViewModeContext = createContext<ProjectViewModeContextValue | null>(null);
 
@@ -51,11 +52,42 @@ function subscribe(onStoreChange: () => void) {
   };
 }
 
+let clientHydrated = false;
+
+function subscribeHydrated(onStoreChange: () => void) {
+  const markHydrated = () => {
+    if (!clientHydrated) {
+      clientHydrated = true;
+      onStoreChange();
+    }
+  };
+
+  queueMicrotask(markHydrated);
+  window.addEventListener(HYDRATED_EVENT, markHydrated);
+
+  return () => {
+    window.removeEventListener(HYDRATED_EVENT, markHydrated);
+  };
+}
+
+function getHydratedSnapshot() {
+  return clientHydrated;
+}
+
+function getHydratedServerSnapshot() {
+  return false;
+}
+
 export function ProjectViewModeProvider({ children }: { children: ReactNode }) {
   const mode = useSyncExternalStore(
     subscribe,
     readStoredMode,
     () => DEFAULT_MODE,
+  );
+  const isHydrated = useSyncExternalStore(
+    subscribeHydrated,
+    getHydratedSnapshot,
+    getHydratedServerSnapshot,
   );
 
   const setMode = useCallback((next: ProjectViewMode) => {
@@ -71,9 +103,9 @@ export function ProjectViewModeProvider({ children }: { children: ReactNode }) {
     () => ({
       mode,
       setMode,
-      isHydrated: typeof window !== "undefined",
+      isHydrated,
     }),
-    [mode, setMode],
+    [mode, setMode, isHydrated],
   );
 
   return (

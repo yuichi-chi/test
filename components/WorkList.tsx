@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { getProjectHref, isInlineProject, siteConfig } from "@/lib/content";
+import { getProjectHref, siteConfig } from "@/lib/content";
 import { ProjectDiagram } from "@/components/diagrams/ProjectDiagram";
 import { PageShell } from "@/components/PageShell";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -53,9 +53,6 @@ export function WorkList() {
                 <div className="min-w-0 flex-1">
                   <h3 className="work-index-title">{project.title}</h3>
                   <ul className="work-index-tags mt-4 md:mt-5">
-                    {isInlineProject(project) && (
-                      <li className="work-index-tag work-index-tag-inline">インライン展示</li>
-                    )}
                     {visibleTags.map((tag) => (
                       <li key={tag} className="work-index-tag">
                         {tag}

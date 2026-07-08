@@ -462,19 +462,6 @@ export const siteConfig = {
           "「どう褒めるか」を書き直すたびに、AI の動きが目に見えて変わる。強化学習は「AI を賢くする作業」というより「AI に何が良いことかを教える作業」なのだと、手を動かして初めて分かりました。",
       },
     },
-    {
-      id: "04",
-      title: "既存コードの内部ロジック解析",
-      category: "Java / コードリーディング / 仕様解析",
-      story: [
-        "巨大なブラックボックスに挑んだ。大規模なゲームフレームワーク（Minecraft）などの既存コードベースを読み解き、ドキュメントのない環境の中で「内部の計算がどう行われているのか」をデバッグとソース解読によって徹底的に分析。",
-        "システムの裏側を自分の手で解き明かす楽しさに魅了され、内部仕様をハックするパッチやMODの開発を行いました。",
-      ],
-      storySimple: [
-        "ドキュメントのない巨大な既存コードを、デバッグと読み解きで徹底的に分析したプロジェクトです。",
-        "内部の仕組みを自分の手で解き明かし、パッチやMODの開発まで行いました。",
-      ],
-    },
   ] satisfies Project[],
   about: {
     paragraphs: [
@@ -491,10 +478,6 @@ export const siteConfig = {
       label: "Mail",
       address: "",
     },
-    sns: {
-      label: "Web",
-      url: "https://yuichi-chi.github.io",
-    },
   },
   metadata: {
     title: "好きなことに、誰よりも夢中になる。",
@@ -510,11 +493,7 @@ export function getProjectBySlug(slug: string): Project | undefined {
 }
 
 export function getProjectHref(project: Project) {
-  return project.slug ? `/works/${project.slug}` : `#work-${project.id}`;
-}
-
-export function isInlineProject(project: Project) {
-  return !project.slug;
+  return `/works/${project.slug}`;
 }
 
 export function hasContactEmail(address: string) {

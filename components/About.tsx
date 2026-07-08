@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Globe, Mail, type LucideIcon } from "lucide-react";
+import { Github, Mail, type LucideIcon } from "lucide-react";
 import { hasContactEmail, siteConfig } from "@/lib/content";
 import { PageShell } from "@/components/PageShell";
 import { PrintButton } from "@/components/PrintButton";
@@ -40,14 +40,6 @@ export function About() {
           } satisfies ContactLink,
         ]
       : []),
-    {
-      key: "sns",
-      href: contact.sns.url,
-      label: contact.sns.label,
-      value: contact.sns.url.replace(/^https?:\/\//, ""),
-      Icon: Globe,
-      external: true,
-    },
   ];
 
   return (
