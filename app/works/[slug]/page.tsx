@@ -22,9 +22,27 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Not Found" };
   }
 
+  const title = project.title;
+  const description = project.detail?.lead ?? project.story[0];
+  const pageUrl = `${siteConfig.metadata.siteUrl}/works/${slug}`;
+
   return {
-    title: `${project.title} | ${siteConfig.metadata.title}`,
-    description: project.detail?.lead ?? project.story[0],
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: pageUrl,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+    alternates: {
+      canonical: pageUrl,
+    },
   };
 }
 

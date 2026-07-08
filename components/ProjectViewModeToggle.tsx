@@ -12,7 +12,7 @@ export function ProjectViewModeToggle() {
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-1 rounded-full border border-neutral-900/15 bg-[var(--bg)]/95 p-1 shadow-lg backdrop-blur-sm md:bottom-8 md:right-8"
+      className="project-view-mode-toggle fixed bottom-6 right-6 z-50 flex items-center gap-1 rounded-full border border-neutral-900/15 bg-[var(--bg)]/95 p-1 shadow-lg backdrop-blur-sm md:bottom-8 md:right-8"
       role="group"
       aria-label="解説モードの切替"
     >

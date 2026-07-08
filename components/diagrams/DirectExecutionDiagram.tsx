@@ -37,7 +37,7 @@ export function DirectExecutionDiagram({ className }: DiagramProps) {
       >
         <title>歪み検知から直接実行までのフロー</title>
 
-        <StepBox x="70" y="100" label="Monitor" width={88} />
+        <StepBox x={70} y={100} label="Monitor" width={88} />
 
         <path
           d="M 114 100 L 146 100"
@@ -66,7 +66,7 @@ export function DirectExecutionDiagram({ className }: DiagramProps) {
           style={{ animationDelay: "0.3s" }}
         />
 
-        <StepBox x="310" y="100" label="Solidity TX" width={100} />
+        <StepBox x={310} y={100} label="Solidity TX" width={100} />
 
         <path
           d="M 360 100 L 392 100"

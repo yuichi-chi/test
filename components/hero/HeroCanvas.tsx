@@ -29,6 +29,8 @@ function CameraRig() {
   return null;
 }
 
+const HERO_BG = "#faf9f6";
+
 export default function HeroCanvas() {
   const [dpr, setDpr] = useState(1.5);
   const [reducedShapes, setReducedShapes] = useState(false);
@@ -64,8 +66,7 @@ export default function HeroCanvas() {
       gl={{ alpha: true, antialias: true, powerPreference: "high-performance" }}
       style={{ background: "transparent" }}
     >
-      <color attach="background" args={["#faf9f6"]} />
-      <fog attach="fog" args={["#faf9f6", 4, 14]} />
+      <color attach="background" args={[HERO_BG]} />
       <ambientLight intensity={0.55} />
       <directionalLight position={[4, 6, 4]} intensity={0.35} />
       <AbstractShapes reduced={reducedShapes} />

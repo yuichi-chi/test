@@ -4,9 +4,8 @@ import {
   createContext,
   useCallback,
   useContext,
-  useEffect,
   useMemo,
-  useState,
+  useSyncExternalStore,
   type ReactNode,
 } from "react";
 
@@ -20,37 +19,61 @@ type ProjectViewModeContextValue = {
 
 const STORAGE_KEY = "projectViewMode";
 const DEFAULT_MODE: ProjectViewMode = "simple";
+const MODE_CHANGE_EVENT = "projectViewModeChange";
 
 const ProjectViewModeContext = createContext<ProjectViewModeContextValue | null>(null);
 
-export function ProjectViewModeProvider({ children }: { children: ReactNode }) {
-  const [mode, setModeState] = useState<ProjectViewMode>(DEFAULT_MODE);
-  const [isHydrated, setIsHydrated] = useState(false);
-
-  useEffect(() => {
-    try {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored === "expert" || stored === "simple") {
-        setModeState(stored);
-      }
-    } catch {
-      // localStorage が使えない環境ではデフォルトのまま
+function readStoredMode(): ProjectViewMode {
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (stored === "expert" || stored === "simple") {
+      return stored;
     }
-    setIsHydrated(true);
-  }, []);
+  } catch {
+    // localStorage が使えない環境ではデフォルトのまま
+  }
+  return DEFAULT_MODE;
+}
+
+function subscribe(onStoreChange: () => void) {
+  const onStorage = (event: StorageEvent) => {
+    if (event.key === STORAGE_KEY) {
+      onStoreChange();
+    }
+  };
+
+  window.addEventListener("storage", onStorage);
+  window.addEventListener(MODE_CHANGE_EVENT, onStoreChange);
+
+  return () => {
+    window.removeEventListener("storage", onStorage);
+    window.removeEventListener(MODE_CHANGE_EVENT, onStoreChange);
+  };
+}
+
+export function ProjectViewModeProvider({ children }: { children: ReactNode }) {
+  const mode = useSyncExternalStore(
+    subscribe,
+    readStoredMode,
+    () => DEFAULT_MODE,
+  );
 
   const setMode = useCallback((next: ProjectViewMode) => {
-    setModeState(next);
     try {
       window.localStorage.setItem(STORAGE_KEY, next);
+      window.dispatchEvent(new Event(MODE_CHANGE_EVENT));
     } catch {
       // localStorage 書き込み不可でも UI 状態は維持
     }
   }, []);
 
   const value = useMemo(
-    () => ({ mode, setMode, isHydrated }),
-    [mode, setMode, isHydrated],
+    () => ({
+      mode,
+      setMode,
+      isHydrated: typeof window !== "undefined",
+    }),
+    [mode, setMode],
   );
 
   return (

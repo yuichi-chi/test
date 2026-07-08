@@ -11,21 +11,50 @@ const notoSansJP = Noto_Sans_JP({
   display: "swap",
 });
 
+const siteUrl = siteConfig.metadata.siteUrl;
+
 export const metadata: Metadata = {
-  title: siteConfig.metadata.title,
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: siteConfig.metadata.title,
+    template: `%s | ${siteConfig.metadata.title}`,
+  },
   description: siteConfig.metadata.description,
+  authors: [{ name: siteConfig.metadata.author }],
+  creator: siteConfig.metadata.author,
+  openGraph: {
+    type: "website",
+    locale: "ja_JP",
+    url: siteUrl,
+    siteName: `${siteConfig.metadata.author} Portfolio`,
+    title: siteConfig.metadata.title,
+    description: siteConfig.metadata.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.metadata.title,
+    description: siteConfig.metadata.description,
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
 };
 
 const criticalStyles = `
+  :root {
+    color-scheme: light;
+    --bg: #faf9f6;
+    --fg: #111111;
+  }
   html, body {
     margin: 0;
     min-height: 100%;
-    background: #faf9f6;
-    color: #111111;
+    background: var(--bg);
+    color: var(--fg);
     font-family: var(--font-noto-sans-jp), "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  a { color: inherit; text-decoration: none; }
+  a { text-decoration: none; }
 `;
 
 export default function RootLayout({
@@ -43,7 +72,7 @@ export default function RootLayout({
         ) : null}
         <style dangerouslySetInnerHTML={{ __html: criticalStyles }} />
       </head>
-      <body className="min-h-full bg-[#faf9f6] font-sans text-[#111111] antialiased">
+      <body className="min-h-full font-sans antialiased" style={{ background: "var(--bg)", color: "var(--fg)" }}>
         {isDev ? <StylesheetLoader /> : null}
         {children}
       </body>

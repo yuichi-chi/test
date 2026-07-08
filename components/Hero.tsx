@@ -1,25 +1,42 @@
+import Link from "next/link";
 import { HeroBackground3D } from "@/components/HeroBackground3D";
 import { siteConfig } from "@/lib/content";
 import { HeroScroll } from "@/components/HeroScroll";
 import { PageShell } from "@/components/PageShell";
 
 export function Hero() {
+  const { eyebrow, lines, subtitle, byline } = siteConfig.hero;
+
   return (
-    <HeroScroll className="relative min-h-[70vh] overflow-hidden pb-24 pt-28 md:pb-32 md:pt-40">
+    <HeroScroll className="relative min-h-[85vh] overflow-hidden pb-32 pt-28 md:pb-40 md:pt-40">
       <HeroBackground3D />
       <PageShell className="relative z-10">
-        <h1 className="text-balance">
-          {siteConfig.hero.lines.map((line) => (
+        <p className="hero-eyebrow">{eyebrow}</p>
+
+        <h1 className="mt-6 text-balance md:mt-8">
+          {lines.map((line) => (
             <span key={line} className="display-xl block">
               {line}
             </span>
           ))}
         </h1>
 
-        <p className="mt-8 text-sm font-medium uppercase tracking-[0.12em] text-[var(--muted)] md:mt-10 md:text-base">
-          {siteConfig.hero.byline}
+        <p className="hero-subtitle mt-6 md:mt-8">{subtitle}</p>
+
+        <p className="mt-6 text-xs font-medium uppercase tracking-[0.12em] text-[var(--muted)] md:mt-8 md:text-sm">
+          {byline}
         </p>
+
+        <Link href="#works" className="hero-cta mt-10 md:mt-14" aria-label="View Works">
+          <span className="hero-cta-label">View Works</span>
+          <span aria-hidden="true" className="hero-cta-arrow">→</span>
+        </Link>
       </PageShell>
+
+      <div aria-hidden="true" className="hero-scroll-cue">
+        <span className="hero-scroll-cue-line" />
+        <span className="hero-scroll-cue-text">Scroll</span>
+      </div>
     </HeroScroll>
   );
 }

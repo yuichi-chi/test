@@ -1,4 +1,9 @@
-export type DiagramId = "token-triangle" | "ui-bypass" | "direct-execution" | "nft-mint-flow";
+export type DiagramId =
+  | "token-triangle"
+  | "ui-bypass"
+  | "direct-execution"
+  | "nft-mint-flow"
+  | "rl-training-loop";
 
 export type ProjectDetail = {
   lead: string;
@@ -28,12 +33,15 @@ export type Project = {
   storySimple?: string[];
   liveUrl?: string;
   repoUrl?: string;
+  listDiagramId?: DiagramId;
   detail?: ProjectDetail;
 };
 
 export const siteConfig = {
   hero: {
+    eyebrow: "Kumano Yuichi · Portfolio 2026",
     lines: ["好きなことに、", "誰よりも夢中になる。"],
+    subtitle: "Software Engineer — Web3 / Reinforcement Learning",
     byline: "yuichi kumano / Portfolio",
     statement:
       "私は、自分が「面白い」「知りたい」と思ったことに対して、限界を決めずにトコトン没頭できる人間です。誰かに指示されたからではなく、自分自身の「なぜ？」「もっとこうしたい！」という好奇心に突き動かされて動きます。器用に立ち回るよりも、これだと決めた対象に寝食を忘れて誰よりも深い熱量を注ぎ込み、形にすることに価値を感じています。",
@@ -44,13 +52,21 @@ export const siteConfig = {
       slug: "arbitrage-bot",
       title: "アービトラージボット開発",
       category: "Solidity / Ethereum / Sui / リバースエンジニアリング",
+      listDiagramId: "token-triangle",
       story: [
         "3つのトークンが相互に価値を与え合う仕組みに出会った。サイトのUIでは建値建ての取引ができるとされていたが、ブロックチェーンの本質はトランザクションの直接実行にある。UIのボタンを押さなくても、オンチェーンに直接送れば取引は成立する——その事実に気づいたとき、仕組みの全体像が見え始めました。",
         "3つのトークン間の価格歪みが大きくなった瞬間を狙い、自分でSolidityを書いてトランザクションを直接実行する。UIを介さない分、反応は速い。歪みが生まれるたびに、自分のコントラクトから一気に取引を流し込めるようになりました。",
         "通信速度（インフラ）は専門外と割り切り対策はしていませんが、その分、ガス代上限設定やスリッページ対策といった「損失を防ぐための防御ロジック」をコントラクト側にガチガチに組み込むことに熱量を注ぎました。",
       ],
+      storySimple: [
+        "あるDeFiのサイトでは「3種類のトークンをボタンで交換できる」と案内されていました。でも本当の仕組みは、ブロックチェーン上に直接「取引の申し込み」を送ることでした。画面のボタンを待たなくても、同じ取引を自分から送れる——その発見が、このプロジェクトの出発点です。",
+        "3つのトークンの価格バランスが崩れた瞬間を狙い、自分で書いたプログラム（スマートコントラクト）から直接取引を流し込む仕組みを作りました。サイト経由より速く反応できる分、他の参加者より先に「値段のズレ」を取りに行ける設計です。",
+        "サーバーの速度勝負は専門外と割り切り、その代わり「失敗したときに大損しない」ための安全装置——ガス代の上限、許容できる値幅の制限など——をプログラム側に徹底して組み込みました。",
+      ],
       detail: {
-        lead: "3つのトークンが相互に価値を与え合う仕組み。UIを迂回し、Solidityで直接トランザクションを叩いて歪みを取る。",
+        lead: "3つのトークンが相互に価値を与え合うDeFiプロトコルで、UIを迂回しSolidityから直接トランザクションを叩いて価格歪みを取るアービトラージボットを構築。攻めの実行速度と守りの防御ロジックを同一コントラクトで両立。",
+        leadSimple:
+          "3種類のトークンの価格ズレを狙い、サイトのボタンを使わずに自分のプログラムから直接取引するボットを作ったプロジェクト。",
         meta: [
           { label: "領域", value: "DeFi / トークンアービトラージ" },
           { label: "仕組み", value: "3トークン相互価値モデル" },
@@ -60,38 +76,78 @@ export const siteConfig = {
           "3つのトークンが相互に価値を与え合うプロトコルの仕組みを理解し、価格歪みの発生条件を把握",
           "サイトUIの建値建て取引を分析し、ボタン操作なしでオンチェーンから直接実行できる経路を確立",
           "歪みが拡大したタイミングで、自前のSolidityコントラクトからトランザクションを直接送信し高速に取引",
-          "ガス上限・スリッページ対策など、損失を防ぐ防御ロジックをコントラクト側に徹底実装",
+          "ガス上限・スリッページ対策・想定外状態へのガードなど、損失を防ぐ防御ロジックをコントラクト側に徹底実装",
+          "インフラ速度には投資せず「UIの外側から直接叩く」設計で、速度競争の中でも十分に勝負できる構成に絞り込み",
+        ],
+        highlightsSimple: [
+          "3種類のトークンがどう価値を循環させ、いつ「値段のズレ」が生まれるかを理解した",
+          "サイトのボタンが裏で何をしているかを突き止め、同じ処理を直接送れる経路を見つけた",
+          "ズレが大きくなった瞬間に、自分のプログラムから一気に取引を流し込めるようにした",
+          "失敗時の損失を抑える安全装置（ガス上限・値幅制限など）をプログラムに組み込んだ",
+          "サーバー速度の勝負は避けつつ、「画面を迂回して直接叩く」設計でスピードを確保した",
         ],
         sections: [
           {
+            title: "Motivation",
+            titleSimple: "動機",
+            body: [
+              "DeFiのUIは取引の入り口に見えて、本質はオンチェーンへのトランザクション送信にある——この構造を、机上の理解ではなく自分の手で確かめたかった。3トークンが相互に価値を与え合うプロトコルは、歪みの発生条件が明確で、アービトラージを「仕組みとして読み解く」題材として最適でした。",
+              "インフラ速度の軍拡競争には参加せず、「UIを迂回して直接叩く」という設計で勝負できるかを検証するのが、このプロジェクトの核心です。",
+            ],
+            bodySimple: [
+              "「サイトのボタンを押す」と「ブロックチェーンに直接送る」は、本質的に同じ取引の別ルート——この違いを、自分の手で確かめたかった。",
+              "サーバー速度の勝負は避けつつ、「画面を迂回して直接叩く」ことで十分に戦えるかを試すのが目的でした。",
+            ],
+          },
+          {
             title: "Mechanism",
+            titleSimple: "仕組み",
             diagram: "token-triangle",
             body: [
               "対象のプロトコルには、3つのトークンが相互に価値を与え合う仕組みがありました。それぞれのトークンが循環的に関係し、バランスが崩れた瞬間に価格の歪み——アービトラージの機会——が生まれます。",
               "サイトのUIでは、この3トークンを建値建てで取引できると案内されていました。多くのユーザーはそのUIのボタンを押して取引します。しかし、ブロックチェーンの取引は本質的にトランザクションの送信であり、UIはあくまでその入り口のひとつに過ぎません。",
             ],
+            bodySimple: [
+              "対象の仕組みでは、3種類のトークンがお互いに価値を与え合っています。バランスが崩れた瞬間に「値段のズレ」が生まれ、それがチャンスになります。",
+              "サイトではボタンで交換できると案内されていますが、本当はブロックチェーンに直接「申し込み」を送れば同じことができます。画面はあくまで入り口のひとつです。",
+            ],
           },
           {
-            title: "UIを迂回する",
+            title: "UI Bypass",
+            titleSimple: "UIを迂回する",
             diagram: "ui-bypass",
             body: [
               "UIのボタンを押すと、裏側ではスマートコントラクトへのトランザクションが発行されています。つまり、同じコントラクトに直接トランザクションを送れば、UIを経由せずに同じ——いや、それ以上に速い——取引が可能です。",
               "フロントエンドの操作を待つ必要がなく、自分でコールデータを組み立ててオンチェーンに投げられる。UI利用者が画面を操作している間に、すでに取引を完了させられる——これがブロックチェーン直接実行の強みでした。",
             ],
+            bodySimple: [
+              "サイトのボタンを押すと、裏では自動的にブロックチェーンへの「申し込み」が送られています。同じ申し込みを、画面を経由せず直接送れば、同じ——いやそれ以上に速い——取引ができます。",
+              "他の人が画面を操作している間に、すでに取引を完了させられる。これが「迂回」の強みです。",
+            ],
           },
           {
-            title: "Solidityで直接実行",
+            title: "Direct Execution",
+            titleSimple: "直接実行",
             diagram: "direct-execution",
             body: [
               "3つのトークン間の歪みが大きくなったタイミングを捉えるため、自分でSolidityを書き、トランザクションを直接実行する仕組みを構築しました。",
               "歪みが発生したら、自前のコントラクトから一連のスワップを一気に流し込む。UIを介さない分、反応速度で他の参加者に先を越せます。速度競争の世界でインフラには投資しませんでしたが、「UIの外側から直接叩く」という設計で十分に勝負できました。",
             ],
+            bodySimple: [
+              "値段のズレが大きくなったタイミングを捉えるため、自分でプログラムを書き、直接取引を送る仕組みを作りました。",
+              "ズレが生まれたら、自分のプログラムから一連の交換を一気に流し込みます。画面を介さない分、他の人より先に動けます。",
+            ],
           },
           {
             title: "Defense Logic",
+            titleSimple: "防御ロジック",
             body: [
               "高速で取引できるからこそ、失敗のコストも大きい。ガス代の上限設定、スリッページ許容値の厳格な管理、想定外の状態遷移へのガード処理——損失を防ぐ防御ロジックをコントラクト側に入れ込みました。",
               "「儲かるか」より先に「損しないか」。歪みを取りに行く攻めの設計と、失敗を許さない守りの設計を、同じコントラクトの中で両立させました。",
+            ],
+            bodySimple: [
+              "速く取引できるほど、失敗のダメージも大きい。だから「ガス代の上限」「許容できる値幅の制限」「想定外のときの停止処理」といった安全装置をプログラムに入れました。",
+              "「儲かるか」より先に「損しないか」。攻めの設計と守りの設計を、同じプログラムの中で両立させました。",
             ],
           },
         ],
@@ -122,7 +178,9 @@ export const siteConfig = {
           "トークンアービトラージ",
         ],
         reflection:
-          "UIは取引の入り口に見えて、本質はトランザクションの送信だった。3つのトークンが織りなす歪みを、自分の手で書いたSolidityから直接叩けるようになったとき、ブロックチェーンの構造そのものを使いこなせている実感がありました。",
+          "UIは取引の入り口に見えて、本質はトランザクションの送信だった。3つのトークンが織りなす歪みを、自分の手で書いたSolidityから直接叩けるようになったとき、ブロックチェーンが「仕組みそのものを使いこなす道具」だと実感できた。",
+        reflectionSimple:
+          "画面のボタンは入り口にすぎなくて、本当の取引はブロックチェーンへの「申し込み」そのもの——自分のプログラムから直接それを送れるようになったとき、仕組みの裏側を使いこなせている実感がありました。",
       },
     },
     {
@@ -131,6 +189,7 @@ export const siteConfig = {
       title: "NFTミントサイト開発",
       category: "Solidity / ERC-721 / Next.js / wagmi / Hardhat / Sepolia / IPFS",
       liveUrl: "https://mint-nft-2b4c.vercel.app/",
+      listDiagramId: "nft-mint-flow",
       story: [
         "自分が発行したNFTを、世界の誰でもオンチェーンでミントできる状態を作りたかった。ERC-721の仕様書を読み、OpenZeppelinを継承してSolidityでコントラクトを書き、Hardhatでコンパイル、Alchemy経由でSepoliaにデプロイ——ブロックチェーン開発の「入口から出口」を、自分の手で最後まで通す経験がしたかったのです。",
         "コントラクト側は「安全に、公平に配布する」を最優先にしました。ReentrancyGuardで mint と withdraw の両方を保護し、MAX_PER_ADDRESS = 1 で1ウォレット1枚に絞り、MINT_PRICE = 0.000001 ether で誰でも試せる形に。オーナー配布用の ownerMint()、資金引き出しの withdraw()、後からメタデータを差し替えられる setBaseURI() も実装しています。",
@@ -181,6 +240,7 @@ export const siteConfig = {
           },
           {
             title: "Mint Flow",
+            titleSimple: "ミントの流れ",
             diagram: "nft-mint-flow",
             body: [
               "サイトにアクセスしたユーザーがMetaMaskを接続すると、フロントの mint() 呼び出しが Sepolia 上のERC-721コントラクトに届きます。0.000001 ETH を添えたトランザクションが実行されると、新しい tokenId が発行され、Transfer イベントが飛ぶ。",
@@ -193,6 +253,7 @@ export const siteConfig = {
           },
           {
             title: "Contract Design",
+            titleSimple: "コントラクト設計",
             body: [
               "OpenZeppelin の ERC721 / Ownable / ReentrancyGuard を継承した MyNFT を実装。mint() は payable かつ nonReentrant で、totalMinted < MAX_SUPPLY / msg.value >= MINT_PRICE / mintedPerAddress[msg.sender] < MAX_PER_ADDRESS の3種の require で守っています。",
               "加えて、オーナー向けの無料配布用 ownerMint()、onlyOwner + nonReentrant + call{value:} で安全に引き出す withdraw()、後からメタデータを差し替えられる setBaseURI() を実装。「1ウォレット1枚まで」で公平に、「0.000001 ETH」で誰でも試せる、を両立する設計です。",
@@ -204,6 +265,7 @@ export const siteConfig = {
           },
           {
             title: "IPFS Metadata",
+            titleSimple: "IPFSメタデータ",
             body: [
               "各NFTのメタデータJSONは400個個別に生成し、Pinataでフォルダごとピニング。取得したフォルダCIDを baseTokenURI にセットすることで、tokenId → tokenURI の解決が OpenZeppelin の実装だけで自動化されます。",
               "Pinataの無料枠500ファイル制限に対して、画像1枚を全NFTで共通利用する設計判断を採用。scripts/generateMetadata.js を書いて400個のJSONを一括生成し、「できないから諦める」ではなく「制約を回避する設計」で乗り越えました。",
@@ -215,6 +277,7 @@ export const siteConfig = {
           },
           {
             title: "Frontend Architecture",
+            titleSimple: "フロントエンド構成",
             body: [
               "Next.js 15（Turbopack）+ React 19 + TypeScript + TailwindCSS で構築。ウォレット接続は RainbowKit（UIコンポーネント）+ wagmi（React Hooks）+ MetaMask SDK の組み合わせで実装しました。",
               "ブロックチェーン通信はあえて ethers 6 / viem / web3.js の3系統を併用し、それぞれのAPI設計と型サポートの手触りを比較。ミント状態は react-toastify で即時フィードバックし、Vercelに継続デプロイして常時公開しています。",
@@ -265,6 +328,7 @@ export const siteConfig = {
       title: "強化学習によるゲーム攻略最適化",
       category: "Python / PPO / Stable-Baselines3 / Gymnasium / 強化学習",
       repoUrl: "https://github.com/yuichi-chi/dqxtool-nijio-bu",
+      listDiagramId: "rl-training-loop",
       story: [
         "ドラゴンクエストXのターン制ミニゲームを題材に、人間の勘や熟練ではなく PPO（強化学習）でゲーム攻略の最適手順を導出しようと決めました。ゲームロジックを Gymnasium 互換の環境として自前実装し、状態・行動・報酬という3点セットに翻訳することから始めました。",
         "Stable-Baselines3 の PPO で学習パイプラインを組み、ネットワーク[128,128]・学習率線形減衰・エントロピー係数 0.001 に絞って「探索は減らして自信のある一手」を選ばせる方針にチューニング。TensorBoard 連携・チェックポイント自動保存・100 エピソード自動評価まで、単発の実験ではなく反復回せる運用として構築しました。",
@@ -332,6 +396,7 @@ export const siteConfig = {
             ],
             bodySimple: [
               "AIが賢くなる速さと、賢くなった後の落ち着き具合のバランスを取るために、「AIの脳のサイズ」「勉強のペース」「冒険心の強さ」といったつまみを、実験を見ながら少しずつ調整しました。",
+              "特に「冒険心の強さ」は最初よりかなり弱めに設定し、AIが「もう探索より、自信のある一手を確実に選べ」という方向に学習するようチューニングしました。",
             ],
           },
           {
@@ -349,6 +414,7 @@ export const siteConfig = {
           {
             title: "Training Pipeline",
             titleSimple: "学習パイプライン",
+            diagram: "rl-training-loop",
             body: [
               "単発の学習で終わらせないため、EpisodeStopCallback（指定エピソード数で自動停止）、EvalCallback（定期評価とベストモデル保存）、CheckpointCallback（定期スナップショット）を組み合わせ、学習後に自動で 100 エピソード評価する完結したパイプラインを組みました。",
               "既存モデルの読み込みによる継続学習、固定行動プレフィックスからの分岐探索、TensorBoard での可視化まで揃えることで、「試したい仮説を CLI 引数だけで切り替えて回せる」形にしています。",
@@ -404,6 +470,10 @@ export const siteConfig = {
         "巨大なブラックボックスに挑んだ。大規模なゲームフレームワーク（Minecraft）などの既存コードベースを読み解き、ドキュメントのない環境の中で「内部の計算がどう行われているのか」をデバッグとソース解読によって徹底的に分析。",
         "システムの裏側を自分の手で解き明かす楽しさに魅了され、内部仕様をハックするパッチやMODの開発を行いました。",
       ],
+      storySimple: [
+        "ドキュメントのない巨大な既存コードを、デバッグと読み解きで徹底的に分析したプロジェクトです。",
+        "内部の仕組みを自分の手で解き明かし、パッチやMODの開発まで行いました。",
+      ],
     },
   ] satisfies Project[],
   about: {
@@ -415,21 +485,23 @@ export const siteConfig = {
   contact: {
     github: {
       label: "GitHub",
-      url: "https://github.com/your-username",
+      url: "https://github.com/yuichi-chi",
     },
     email: {
       label: "Mail",
-      address: "your.email@example.com",
+      address: "",
     },
     sns: {
-      label: "TW",
-      url: "https://x.com/your-handle",
+      label: "Web",
+      url: "https://yuichi-chi.github.io",
     },
   },
   metadata: {
     title: "好きなことに、誰よりも夢中になる。",
     description:
       "好奇心と没頭力をエンジンに、好きなことに限界なく熱量を注ぐエンジニアのポートフォリオ。",
+    siteUrl: "https://yuichi-chi.github.io/test",
+    author: "Kumano Yuichi",
   },
 };
 
@@ -439,4 +511,12 @@ export function getProjectBySlug(slug: string): Project | undefined {
 
 export function getProjectHref(project: Project) {
   return project.slug ? `/works/${project.slug}` : `#work-${project.id}`;
+}
+
+export function isInlineProject(project: Project) {
+  return !project.slug;
+}
+
+export function hasContactEmail(address: string) {
+  return address.length > 0 && !address.includes("example.com");
 }
