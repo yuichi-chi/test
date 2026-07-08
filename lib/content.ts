@@ -5,6 +5,18 @@ export type DiagramId =
   | "nft-mint-flow"
   | "rl-training-loop";
 
+export type TrainingEvidence = {
+  title: string;
+  titleSimple?: string;
+  dataPath: string;
+  charts: {
+    src: string;
+    alt: string;
+    caption: string;
+    captionSimple?: string;
+  }[];
+};
+
 export type ProjectDetail = {
   lead: string;
   leadSimple?: string;
@@ -35,6 +47,7 @@ export type Project = {
   repoUrl?: string;
   listDiagramId?: DiagramId;
   detail?: ProjectDetail;
+  trainingEvidence?: TrainingEvidence;
 };
 
 export const siteConfig = {
@@ -329,6 +342,37 @@ export const siteConfig = {
       category: "Python / PPO / Stable-Baselines3 / Gymnasium / 強化学習",
       repoUrl: "https://github.com/yuichi-chi/dqxtool-nijio-bu",
       listDiagramId: "rl-training-loop",
+      trainingEvidence: {
+        title: "Training Results",
+        titleSimple: "学習結果",
+        dataPath: "/projects/game-strategy-rl/eval-summary.json",
+        charts: [
+          {
+            src: "/projects/game-strategy-rl/training-reward.png",
+            alt: "PPO学習中の平均エピソード報酬の推移",
+            caption:
+              "TensorBoard の rollout/ep_rew_mean。学習が進むにつれ報酬が上がり、方策が安定してきた過程。",
+            captionSimple:
+              "AIへのご褒美（報酬）が学習とともに増えていく様子。うまくプレイできるようになってきた証拠。",
+          },
+          {
+            src: "/projects/game-strategy-rl/training-success.png",
+            alt: "1000エピソード評価における成功率の推移",
+            caption:
+              "best_model.zip を1000エピソード評価したときの成功率（50エピソード移動平均）。",
+            captionSimple:
+              "学習済みAIを1000回テストしたとき、成功した割合の推移。",
+          },
+          {
+            src: "/projects/game-strategy-rl/training-entropy.png",
+            alt: "学習中のポリシーエントロピーの推移",
+            caption:
+              "train/entropy_loss の推移。探索を抑え、自信のある行動へ収束させる設定（ent_coef=0.001）の効果。",
+            captionSimple:
+              "AIの「冒険心」の強さが学習とともに弱まり、決めた手を選ぶようになる様子。",
+          },
+        ],
+      },
       story: [
         "ドラゴンクエストXのターン制ミニゲームを題材に、人間の勘や熟練ではなく PPO（強化学習）でゲーム攻略の最適手順を導出しようと決めました。ゲームロジックを Gymnasium 互換の環境として自前実装し、状態・行動・報酬という3点セットに翻訳することから始めました。",
         "Stable-Baselines3 の PPO で学習パイプラインを組み、ネットワーク[128,128]・学習率線形減衰・エントロピー係数 0.001 に絞って「探索は減らして自信のある一手」を選ばせる方針にチューニング。TensorBoard 連携・チェックポイント自動保存・100 エピソード自動評価まで、単発の実験ではなく反復回せる運用として構築しました。",

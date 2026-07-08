@@ -1,0 +1,19 @@
+{
+  "generatedAt": "2026-07-08T16:02:09.631627+00:00",
+  "rewardVersion": "reward_function_v71pct.py",
+  "modelPath": "models/rainbow_orb_ppo_20251219_230744/best_model.zip",
+  "tensorboardLog": "tensorboard_logs/PPO_99",
+  "successRate": 29.5,
+  "avgError": 14.03,
+  "avgTurns": 16.37,
+  "avgReward": 45.74,
+  "episodes": 1000,
+  "repoUrl": "https://github.com/yuichi-chi/dqxtool-nijio-bu",
+  "benchmark": {
+    "source": "reward_function_v71pct.py（1000エピソード評価の記録）",
+    "successRate": 71.3,
+    "avgError": 5.99,
+    "avgTurns": 20.11,
+    "avgReward": 55.34
+  }
+}
