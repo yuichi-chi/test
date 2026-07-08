@@ -5,6 +5,7 @@ import type { Project } from "@/lib/content";
 import { ProjectDiagram } from "@/components/diagrams/ProjectDiagram";
 import { PageShell } from "@/components/PageShell";
 import { ProjectToc, type TocItem } from "@/components/ProjectToc";
+import { ProjectSitePreview } from "@/components/ProjectSitePreview";
 import { RlTrainingEvidence } from "@/components/RlTrainingEvidence";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import {
@@ -55,25 +56,32 @@ function ProjectPageContent({ project }: ProjectPageProps) {
               },
             ]
           : []),
+        ...(project.preview
+          ? [
+              {
+                id: "section-site-preview",
+                label: pick(project.preview.title, project.preview.titleSimple),
+              },
+            ]
+          : []),
         { id: "section-highlights", label: "Highlights" },
         { id: "section-tech-stack", label: "Tech Stack" },
         { id: "section-summary", label: "Summary" },
-        ...otherSections.flatMap((section) => {
-          if (section.title === "Training Pipeline" && project.trainingEvidence) {
-            return [
+        ...otherSections.map((section) => ({
+          id: slugifySectionId(section.title),
+          label: pick(section.title, section.titleSimple),
+        })),
+        ...(project.trainingEvidence
+          ? [
               {
                 id: "section-training-results",
-                label: pick(project.trainingEvidence.title, project.trainingEvidence.titleSimple),
+                label: pick(
+                  project.trainingEvidence.title,
+                  project.trainingEvidence.titleSimple,
+                ),
               },
-            ];
-          }
-          return [
-            {
-              id: slugifySectionId(section.title),
-              label: pick(section.title, section.titleSimple),
-            },
-          ];
-        }),
+            ]
+          : []),
         { id: "section-process", label: "Process" },
         { id: "section-reflection", label: "Reflection" },
       ]
@@ -176,6 +184,10 @@ function ProjectPageContent({ project }: ProjectPageProps) {
                   </dl>
                 </ScrollReveal>
 
+                {project.preview && (
+                  <ProjectSitePreview preview={project.preview} liveUrl={project.liveUrl} />
+                )}
+
                 {leadingSection &&
                   renderSection(leadingSection, slugifySectionId(leadingSection.title))}
 
@@ -227,20 +239,16 @@ function ProjectPageContent({ project }: ProjectPageProps) {
                   </section>
                 </ScrollReveal>
 
-                {otherSections.flatMap((section) => {
-                  const blocks = [];
-                  if (section.title === "Training Pipeline" && project.trainingEvidence) {
-                    blocks.push(
-                      <RlTrainingEvidence
-                        key="training-evidence"
-                        evidence={project.trainingEvidence}
-                        repoUrl={project.repoUrl}
-                      />,
-                    );
-                  }
-                  blocks.push(renderSection(section, slugifySectionId(section.title)));
-                  return blocks;
-                })}
+                {otherSections.map((section) =>
+                  renderSection(section, slugifySectionId(section.title)),
+                )}
+
+                {project.trainingEvidence && (
+                  <RlTrainingEvidence
+                    evidence={project.trainingEvidence}
+                    repoUrl={project.repoUrl}
+                  />
+                )}
 
                 <ScrollReveal distance={40} threshold={0.1}>
                   <section id="section-process" className="section-rule scroll-mt-32 py-14 md:py-20">

@@ -653,6 +653,29 @@ body::before {
     height: auto;
   }
 
+  .project-preview-frame {
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: color-mix(in srgb, var(--fg) 4%, transparent);
+    box-shadow: 0 24px 48px color-mix(in srgb, var(--fg) 8%, transparent);
+  }
+
+  .project-preview-link {
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+
+  .project-preview-link:hover {
+    opacity: 0.92;
+  }
+
+  .project-preview-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   .project-diagram {
     @apply my-8 w-full max-w-2xl rounded-lg border p-6 md:my-10 md:p-8;
     border-color: var(--border);
