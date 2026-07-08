@@ -6,6 +6,40 @@ function DiagramCaption({ children }: { children: string }) {
   return <p className="diagram-caption">{children}</p>;
 }
 
+function ArrowLabel({
+  x,
+  y,
+  width,
+  children,
+}: {
+  x: number;
+  y: number;
+  width: number;
+  children: string;
+}) {
+  return (
+    <g>
+      <rect
+        x={x - width / 2}
+        y={y - 9}
+        width={width}
+        height={18}
+        rx="3"
+        fill="var(--bg)"
+      />
+      <text
+        x={x}
+        y={y}
+        textAnchor="middle"
+        dominantBaseline="central"
+        className="diagram-arrow-label"
+      >
+        {children}
+      </text>
+    </g>
+  );
+}
+
 export function TokenTriangleDiagram({ className }: DiagramProps) {
   return (
     <figure className={className}>
@@ -53,6 +87,10 @@ export function TokenTriangleDiagram({ className }: DiagramProps) {
           markerEnd="url(#arrowhead-triangle)"
           className="diagram-arrow-flow diagram-arrow-slow"
         />
+        <ArrowLabel x={102} y={148} width={54}>
+          redeem
+        </ArrowLabel>
+
         {/* B -> C */}
         <path
           d="M 116 240 L 284 240"
@@ -63,6 +101,10 @@ export function TokenTriangleDiagram({ className }: DiagramProps) {
           className="diagram-arrow-flow diagram-arrow-slow"
           style={{ animationDelay: "0.8s" }}
         />
+        <ArrowLabel x={200} y={240} width={52}>
+          スワップ
+        </ArrowLabel>
+
         {/* C -> A */}
         <path
           d="M 305 205 Q 300 140 222 88"
@@ -73,6 +115,9 @@ export function TokenTriangleDiagram({ className }: DiagramProps) {
           className="diagram-arrow-flow diagram-arrow-slow"
           style={{ animationDelay: "1.6s" }}
         />
+        <ArrowLabel x={298} y={148} width={68}>
+          裏付け処理
+        </ArrowLabel>
 
         {/* Center distortion */}
         <circle cx="200" cy="175" r="28" fill="none" stroke="#111" strokeWidth="1" strokeDasharray="4 4" className="diagram-distortion" />
